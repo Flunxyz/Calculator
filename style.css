@@ -2,3 +2,31 @@ body {
   background-color: rgb(24, 24, 24);
   color: white;
 }
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	width :432px;
+	justify-content: center;
+	background-color: grey;
+	padding: 10px;
+	
+}
+.buttons button {
+	font-family: Arial, Helvetica, sans-serif;
+	width: 100px;
+	height:100px;
+	margin:4px;
+	border-radius: 15px;
+	border: 2px solid black;
+	font-size: 30px;
+	font-weight: bold;
+	
+}
+#display {
+	width: 432px;
+	height: 100px;
+	background-color: white;
+	border-radius: 20px;
+	margin: 4px;
+	border: 2px solid black;
+}
