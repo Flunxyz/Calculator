@@ -9,7 +9,6 @@
 	When an operator has been clicked, set the operator vaiable value to the operator type.
 */
 
-
 const add  = ((number1, number2) => number1 + number2);
 const subtract  = ((number1, number2) => number1 - number2);
 const multiply  = ((number1, number2) => number1 * number2);
@@ -20,10 +19,12 @@ const buttonNumbers = document.querySelectorAll('.num');
 const operations = document.querySelectorAll('.operation');
 const buttons = document.querySelectorAll('button');
 
-let number1 = '';
+let newNumber1 = [];
+let functionRan = [];
+let number1 = [];
 let operator;
-let display = '';
-let number2 = '';
+let display = [];
+let number2 = [];
 let amount = 0;
 
 const calculator = buttons.forEach((button) =>
@@ -32,15 +33,18 @@ const calculator = buttons.forEach((button) =>
 				number1 = Number(number1);
 				number2 = Number(number2);
 				calculateNumber();
+		} if (button.id !== 'equals' && amount === 1 && button.className === 'operation') {
+	
 		}
+
 		if (button.className === 'num' && amount === 0) {
 			display += button.textContent;
 			number1 += button.textContent;
 			displayText.textContent = number1;
 			
 		} else if (button.className === 'operation') {	
-				++amount;
-				display = '';
+				amount = 1;
+				display = [];
 				displayText.textContent = display;
 				let type = button.textContent;
 					if (type === '+' ) {
@@ -51,18 +55,34 @@ const calculator = buttons.forEach((button) =>
 						operator = subtract;
 					} else if (type === '/') {
 						operator = divide;
-					} console.log(operator)	
-					
-		} else if (button.className === 'num' && amount === 1) {
-			number2 += button.textContent;
-			displayText.textContent = number2; 
+					} 
+		} else if (button.className === 'num' && amount === 1 
+				|| button.className === 'operation' && amount === 1 ) {
+					if (functionRan === true) {
+						number2 += button.textContent;
+						displayText.textContent = number2;
+							number1 = newNumber1;
+							number1 = Number(number1);
+							number2 = Number(number2);
+							if(amount === 2) {
+							amount = 1;
+							calculateNumber();
+							}
+					} else {
+						number2 += button.textContent;
+						displayText.textContent = number2;
+					}
 		} 
 	}) 
 );
-
 function calculateNumber (number) {
-	number = operator(number1, number2)
-	displayText.textContent = number
+	functionRan = true;
+	console.log(number1,number2);
+	number = operator(number1, number2);
+	displayText.textContent = number;
+	newNumber1 = number;
+	console.log(number)
+	number2 = [];
 }
 
 
