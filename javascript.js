@@ -3,12 +3,12 @@ const subtract  = ((number1, number2) => number1 - number2);
 const multiply  = ((number1, number2) => number1 * number2);
 const divide  = ((number1, number2) => number1 / number2);
 
+const del = document.querySelector('#delete')
 const decimal = document.querySelector('#decimals')
 const displayText = document.querySelector('#displayP');
 const buttonNumbers = document.querySelectorAll('.num');
 const operations = document.querySelectorAll('.operation');
 const buttons = document.querySelectorAll('button');
-
 
 let number1 = [];
 let number2 = [];
@@ -20,6 +20,9 @@ displayText.textContent = [];
 
 const calculator = buttons.forEach((button) => {
   button.addEventListener('click', (() => {
+		if(button.id === 'delete') {
+			deleteNumber()
+		}
 		if (operator === divide && number2 === 0) {
 			display('error')
 		}
@@ -46,11 +49,12 @@ const calculator = buttons.forEach((button) => {
     } 
   }))
 })
+
 function getFirstNumber (number) {
 	number1 += number.textContent;
 	if(number1.includes('.')) {
 		removeDecimals()
-	}
+	} 
 }
 function getSecondNumber (number) {
 	number2 += number.textContent;
@@ -89,7 +93,7 @@ function display (text) {
 		displayText.textContent = 'error';
 	} else {
 		displayText.textContent = text;
-	}
+	} 
 }
 function roundNumbers(number) {
 	if(number.toString().length > 6) {
@@ -111,5 +115,14 @@ function removeDecimals() {
 }
 function addDecimals() {
 	decimal.className = 'num';
+}
+function deleteNumber(number) {
+	if (displayText.textContent === number1) {
+		number1 = number1.slice(0, -1)
+		display(number1);
+	} else if (displayText.textContent === number2) {
+		number2 = number2.slice(0, -1)
+		display(number2);
+	}
 }
 
