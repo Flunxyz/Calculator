@@ -1,4 +1,3 @@
-
 const add  = ((number1, number2) => number1 + number2);
 const subtract  = ((number1, number2) => number1 - number2);
 const multiply  = ((number1, number2) => number1 * number2);
@@ -20,6 +19,9 @@ displayText.textContent = [];
 
 const calculator = buttons.forEach((button) => {
   button.addEventListener('click', (() => {
+		if (operations.textContent = '/' && number2 === 0) {
+			display('error')
+		}
 		if (operatorActive === true) {
 		}
 		if (typeof(total) === 'number') {
@@ -32,7 +34,7 @@ const calculator = buttons.forEach((button) => {
       getSecondNumber(button);
 			display(number2);
     } else if(button.className === 'num'){
-      getFirstNubmer(button);
+      getFirstNumber(button);
 			display(number1);
     }
     if (button.className === 'operation' && operatorActive === true) {
@@ -45,8 +47,7 @@ const calculator = buttons.forEach((button) => {
     } 
   }))
 })
-
-function getFirstNubmer (number) {
+function getFirstNumber (number) {
 	number1 += number.textContent;  
 	number1 = Number(number1);
 }
@@ -71,13 +72,25 @@ function calculateNewNumber(number) {
 	operatorActive = false
 	functionRan = true
   number = operator(number1, number2);
-	display(number);
 	total = number;
+	roundNumbers(number);
 	number2 = [];
 	return number;
 }
 function display (text) {
-	displayText.textContent = text;
+	if (text === 'error') {
+		clearCalculator()
+		displayText.textContent = 'error';
+	} else {
+		displayText.textContent = text;
+	}
+}
+function roundNumbers(number) {
+	if(number.toString().length > 6) {
+		number = Math.round(number * 10000) / 10000;
+	} 
+	display(number);
+	return number;
 }
 function clearCalculator() {
 	total = [];
@@ -87,3 +100,4 @@ function clearCalculator() {
 	displayText.textContent = [];
 	firstNumber = true;
 }
+
