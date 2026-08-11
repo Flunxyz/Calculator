@@ -18,7 +18,12 @@ let operatorActive = false
 let functionRan = false;
 displayText.textContent = [];
 
-const calculator = buttons.forEach((button) => {
+document.addEventListener('keypress', keydown)
+function keydown (keyPress) {
+	console.log(keyPress.key)
+}
+
+buttons.forEach((button) => {
   button.addEventListener('click', (() => {
 		if(button.id === 'delete') {
 			deleteNumber()
@@ -125,4 +130,3 @@ function deleteNumber(number) {
 		display(number2);
 	}
 }
-
