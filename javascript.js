@@ -3,26 +3,25 @@ const subtract  = ((number1, number2) => number1 - number2);
 const multiply  = ((number1, number2) => number1 * number2);
 const divide  = ((number1, number2) => number1 / number2);
 
+const decimal = document.querySelector('#decimals')
 const displayText = document.querySelector('#displayP');
 const buttonNumbers = document.querySelectorAll('.num');
 const operations = document.querySelectorAll('.operation');
 const buttons = document.querySelectorAll('button');
 
-let total = [];
+
 let number1 = [];
 let number2 = [];
 let operator = [];
-let firstNumber = true;
+let isFirstNumber = true;
 let operatorActive = false
 let functionRan = false;
 displayText.textContent = [];
 
 const calculator = buttons.forEach((button) => {
   button.addEventListener('click', (() => {
-		if (operations.textContent = '/' && number2 === 0) {
+		if (operator === divide && number2 === 0) {
 			display('error')
-		}
-		if (operatorActive === true) {
 		}
 		if (typeof(total) === 'number') {
 			number1 = total;
@@ -30,7 +29,7 @@ const calculator = buttons.forEach((button) => {
 		if (button.id === 'clear') {
 			clearCalculator()
 		}
-    if (button.className === 'num' && firstNumber === false ) {
+    if (button.className === 'num' && isFirstNumber === false ) {
       getSecondNumber(button);
 			display(number2);
     } else if(button.className === 'num'){
@@ -48,16 +47,21 @@ const calculator = buttons.forEach((button) => {
   }))
 })
 function getFirstNumber (number) {
-	number1 += number.textContent;  
-	number1 = Number(number1);
+	number1 += number.textContent;
+	if(number1.includes('.')) {
+		removeDecimals()
+	}
 }
 function getSecondNumber (number) {
 	number2 += number.textContent;
-	number2 = Number(number2);
+	if(number2.includes('.')) {
+		removeDecimals()
+	}
 }
 function getOperator (button) {
 	operatorActive = true;
-	firstNumber = false;
+	isFirstNumber = false;
+	addDecimals()
   if (button.textContent === '+') {
     operator = add;
   } else if (button.textContent === '-') {
@@ -69,6 +73,8 @@ function getOperator (button) {
   } 
 }
 function calculateNewNumber(number) {
+	number1 = Number(number1);
+	number2 = Number(number2);
 	operatorActive = false
 	functionRan = true
   number = operator(number1, number2);
@@ -98,6 +104,12 @@ function clearCalculator() {
 	number2 = [];
 	operator = [];
 	displayText.textContent = [];
-	firstNumber = true;
+	isFirstNumber = true;
+}
+function removeDecimals() {
+	decimal.className = [];
+}
+function addDecimals() {
+	decimal.className = 'num';
 }
 
