@@ -10,6 +10,7 @@ const buttonNumbers = document.querySelectorAll('.num');
 const operations = document.querySelectorAll('.operation');
 const buttons = document.querySelectorAll('button');
 
+let keyPressed = false
 let number1 = [];
 let number2 = [];
 let operator = [];
@@ -18,42 +19,70 @@ let operatorActive = false
 let functionRan = false;
 displayText.textContent = [];
 
+const validKeys = '1234567890/*+-=.C'.split('')
+
+
+buttons.forEach((button) => button.addEventListener('click', ((item) => calculatorCore(button))));
 document.addEventListener('keypress', keydown)
+
 function keydown (keyPress) {
-	console.log(keyPress.key)
+	validKeys.filter((key) => {
+		if(keyPress.key.includes(key)) {
+			keyPressed = true;
+			calculatorCore([],keyPress.key);
+		}
+	})
 }
 
-buttons.forEach((button) => {
-  button.addEventListener('click', (() => {
-		if(button.id === 'delete') {
-			deleteNumber()
-		}
-		if (operator === divide && number2 === 0) {
-			display('error')
-		}
-		if (typeof(total) === 'number') {
-			number1 = total;
-		}
-		if (button.id === 'clear') {
-			clearCalculator()
-		}
-    if (button.className === 'num' && isFirstNumber === false ) {
-      getSecondNumber(button);
-			display(number2);
-    } else if(button.className === 'num'){
-      getFirstNumber(button);
-			display(number1);
-    }
-    if (button.className === 'operation' && operatorActive === true) {
-			calculateNewNumber();
-		}if (button.className === 'operation' ) {
-      getOperator(button);
-    }
-    if(button.id === 'equals') {
-      calculateNewNumber();
-    } 
-  }))
-})
+function calculatorCore (button, keyBind) {
+	if (keyPressed === true) {
+		keyIntoButton(button, keyBind);
+	}
+	if(button.id === 'delete') {
+		deleteNumber()
+	}
+	if (operator === divide && number2 === 0) {
+		display('error')
+	}
+	if (typeof(total) === 'number') {
+		number1 = total;
+	}
+	if (button.id === 'clear') {
+		clearCalculator()
+	}
+  if (button.className === 'num' && isFirstNumber === false ) {
+    getSecondNumber(button);
+		display(number2);
+  } else if(button.className === 'num'){
+    getFirstNumber(button);
+		display(number1);
+  }
+  if (button.className === 'operation' && operatorActive === true) {
+		calculateNewNumber();
+	}if (button.className === 'operation' ) {
+    getOperator(button);
+  }
+  if(button.id === 'equals') {
+    calculateNewNumber();
+  } 
+} 
+
+function keyIntoButton (button, keyBind) {
+	keyPressed = false;
+		if (keyBind === '/' ||
+			keyBind === '+' ||
+			keyBind === '.' ||
+			keyBind === '-' ||
+			keyBind === '=' ||
+			keyBind === '*') {
+				if (keyBind === '*') {
+					keyBind = 'x';
+				}
+				button.className = 'operation';
+		} else {
+			button.className = 'num'
+		} return button.textContent = keyBind;
+}
 
 function getFirstNumber (number) {
 	number1 += number.textContent;
@@ -61,12 +90,14 @@ function getFirstNumber (number) {
 		removeDecimals()
 	} 
 }
+
 function getSecondNumber (number) {
 	number2 += number.textContent;
 	if(number2.includes('.')) {
 		removeDecimals()
 	}
 }
+
 function getOperator (button) {
 	operatorActive = true;
 	isFirstNumber = false;
@@ -81,6 +112,7 @@ function getOperator (button) {
     operator = divide;
   } 
 }
+
 function calculateNewNumber(number) {
 	number1 = Number(number1);
 	number2 = Number(number2);
@@ -92,6 +124,7 @@ function calculateNewNumber(number) {
 	number2 = [];
 	return number;
 }
+
 function display (text) {
 	if (text === 'error') {
 		clearCalculator()
@@ -100,6 +133,7 @@ function display (text) {
 		displayText.textContent = text;
 	} 
 }
+
 function roundNumbers(number) {
 	if(number.toString().length > 6) {
 		number = Math.round(number * 10000) / 10000;
@@ -107,6 +141,7 @@ function roundNumbers(number) {
 	display(number);
 	return number;
 }
+
 function clearCalculator() {
 	total = [];
 	number1 = [];
@@ -115,12 +150,15 @@ function clearCalculator() {
 	displayText.textContent = [];
 	isFirstNumber = true;
 }
+
 function removeDecimals() {
 	decimal.className = [];
 }
+
 function addDecimals() {
 	decimal.className = 'num';
 }
+
 function deleteNumber(number) {
 	if (displayText.textContent === number1) {
 		number1 = number1.slice(0, -1)
