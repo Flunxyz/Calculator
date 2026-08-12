@@ -11,13 +11,13 @@ const operations = document.querySelectorAll('.operation');
 const buttons = document.querySelectorAll('button');
 
 let keyPressed = false
-let number1 = [];
-let number2 = [];
-let operator = [];
+let number1 = '';
+let number2 = '';
+let operator = '';
 let isFirstNumber = true;
 let operatorActive = false
 let functionRan = false;
-displayText.textContent = [];
+displayText.textContent = '';
 
 let validKeys = '1234567890/*+-=.'.split('');
 validKeys.push('Enter', 'Backspace', 'Del')
@@ -41,9 +41,7 @@ function calculatorCore (button, keyBind) {
 	if(button.id === 'delete') {
 		deleteNumber()
 	}
-	if (operator === divide && number2 === 0) {
-		display('error')
-	}
+	
 	if (typeof(total) === 'number') {
 		number1 = total;
 	}
@@ -125,12 +123,15 @@ function getOperator (button) {
 function calculateNewNumber(number) {
 	number1 = Number(number1);
 	number2 = Number(number2);
+	if (operator === divide && number2 === 0) {
+		display('error')
+	}
 	operatorActive = false
 	functionRan = true
   number = operator(number1, number2);
 	total = number;
 	roundNumbers(number);
-	number2 = [];
+	number2 = '';
 	return number;
 }
 
@@ -152,16 +153,16 @@ function roundNumbers(number) {
 }
 
 function clearCalculator() {
-	total = [];
-	number1 = [];
-	number2 = [];
-	operator = [];
-	displayText.textContent = [];
+	total = '';
+	number1 = '';
+	number2 = '';
+	operator = '';
+	displayText.textContent = '';
 	isFirstNumber = true;
 }
 
 function removeDecimals() {
-	decimal.className = [];
+	decimal.className = '';
 }
 
 function addDecimals() {
