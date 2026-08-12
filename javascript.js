@@ -20,18 +20,16 @@ let functionRan = false;
 displayText.textContent = '';
 
 let validKeys = '1234567890/*+-=.'.split('');
-validKeys.push('Enter', 'Backspace', 'Del')
+validKeys.push('Enter', 'Backspace', 'Delete')
 
 buttons.forEach((button) => button.addEventListener('click', ((item) => calculatorCore(button))));
 document.addEventListener('keydown', keydown)
 
 function keydown (keyPress) {
-	validKeys.filter((key) => {
-		if(keyPress.key.includes(key)) {
+		if(validKeys.includes(keyPress.key)) {
 			keyPressed = true;
 			calculatorCore([],keyPress.key);
 		}
-	})
 }
 
 function calculatorCore (button, keyBind) {
