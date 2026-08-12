@@ -19,11 +19,11 @@ let operatorActive = false
 let functionRan = false;
 displayText.textContent = [];
 
-const validKeys = '1234567890/*+-=.C'.split('')
-
+let validKeys = '1234567890/*+-=.'.split('');
+validKeys.push('Enter', 'Backspace', 'Del')
 
 buttons.forEach((button) => button.addEventListener('click', ((item) => calculatorCore(button))));
-document.addEventListener('keypress', keydown)
+document.addEventListener('keydown', keydown)
 
 function keydown (keyPress) {
 	validKeys.filter((key) => {
@@ -71,7 +71,6 @@ function keyIntoButton (button, keyBind) {
 	keyPressed = false;
 		if (keyBind === '/' ||
 			keyBind === '+' ||
-			keyBind === '.' ||
 			keyBind === '-' ||
 			keyBind === '=' ||
 			keyBind === '*') {
@@ -79,8 +78,18 @@ function keyIntoButton (button, keyBind) {
 					keyBind = 'x';
 				}
 				button.className = 'operation';
-		} else {
-			button.className = 'num'
+		} else if (keyBind === 'Enter' ) {
+				button.id ='equals';
+		} else if (keyBind === 'Backspace') {
+			button.id = 'delete';
+		} else if (keyBind === 'Delete') {
+			button.id = 'clear'
+		}
+		else {
+				if (keyBind === '.') {
+					button.id = 'decimals';
+			}
+			button.className = 'num';
 		} return button.textContent = keyBind;
 }
 
